@@ -23,6 +23,7 @@ $config = array(
         'student:studentpass' => array(
             'uid' => array('test'),
             'eduPersonAffiliation' => array('member', 'student'),
+            'hotpToken' => array('otpauth://totp/Example%20University,%20Faculty%20of%20Engineering:student@example.edu?secret=YPUF3ETVVROF3FCJ5OHROZA6BQWEVR35&issuer=Example%20University%2C%20Faculty%20of%20Engineering&algorithm=SHA1&digits=6&period=30')
         ),
         'employee:employeepass' => array(
             'uid' => array('employee'),

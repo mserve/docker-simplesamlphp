@@ -5,3 +5,5 @@ ca/*.csr
 nginx/*.csr
 .idea
 .vscode
+phpdocs
+!phpdocs/.gitkeep

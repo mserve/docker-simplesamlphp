@@ -435,6 +435,7 @@ $config = array(
            'exampleauth' => TRUE, // Setting to TRUE enables.
            'saml' => TRUE, // Setting to FALSE disables.
            'core' => NULL, // Unset or NULL uses default.
+           'totp2fa' => TRUE
     ),
 
 
@@ -812,7 +813,59 @@ $config = array(
             '%replace',
         ),
          */
-
+        // Settings are "last write wins" 
+        70 => array(
+            'class' => 'totp2fa:CheckServiceProvider',
+            'serviceProviderSettings' => [
+                'https://sp1.tutorial.stack-dev.cirrusidentity.com/module.php/saml/sp/metadata.php/default-sp' =>
+                    [
+                        'mode' => 'required',   // this SP requires 2FA                        
+                        'expiresAfter' => 300   // 2FA is valid for 300 seconds
+                                                //  0 means: valid for whole session
+                                                // -1 means: always revalidate
+                    ],
+                'https://proxy.tutorial.stack-dev.cirrusidentity.com/module.php/saml/sp/metadata.php/default-sp' =>
+                    [
+                        'mode' => 'never'     // this SP never requires 2FA                        
+                    ]
+                ]
+        ),
+        // Settings are "last write wins"
+        71 => array(
+            'class' => 'totp2fa:CheckClientIp',
+            'ipNetworks' => [
+                '192.168.0.0/24' =>
+                    [
+                        'mode' => 'never',      // this network is secure - never use 2FA
+                    ],
+                '172.18.1.0/24' =>
+                    [
+                        'mode' => 'required'    // this network is unsecure > always requires
+                                                // 2FA, but keep revalidation from previous
+                                                // settings or use defaults
+                    ],
+                '172.18.1.0/24' =>
+                    [                        
+                        'expiresAfter' => 0      // this network does not require any re-validation
+                    ]
+                ]
+        ),
+        // Settings are "last write wins"
+        71 => array(
+            'class' => 'totp2fa:CheckAttribute'
+            // some good structure to check attributes
+            // string comparison with ===
+            // number with less than, equal, greater then
+            // boolean (true false)
+        ),
+        // Settings in ProcessOtp are "settings of last resort", 
+        // only used if there is no other setting yet
+        80 => array(
+            'class' => 'totp2fa:ProcessTotp',
+            'attributeName' => 'hotpToken',
+            'mode' => 'optional', // by default, 2FA is optional for services
+            'expiresAfter' => 0,  // by default, 2FA is valid for the whole session
+        ),
         /*
          * Consent module is enabled (with no permanent storage, using cookies).
 

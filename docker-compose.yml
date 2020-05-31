@@ -4,6 +4,7 @@ services:
     build: build
     volumes:
       - ./simplesamlphp:/code
+      - ./totp2fa:/plugin
       - ./idp:/conf
     working_dir: /code
     environment:
@@ -15,6 +16,7 @@ services:
     build: build
     volumes:
       - ./simplesamlphp:/code
+      - ./totp2fa:/plugin
       - ./proxy:/conf
     working_dir: /code
     environment:
@@ -25,6 +27,7 @@ services:
     hostname: sp1
     volumes:
       - ./simplesamlphp:/code
+      - ./totp2fa:/plugin
       - ./sp1:/conf
     working_dir: /code
     environment:
@@ -37,12 +40,20 @@ services:
     build: build
     volumes:
       - ./simplesamlphp:/code
+      - ./totp2fa:/plugin
       - ./sp2:/conf
     working_dir: /code
     environment:
       - SIMPLESAMLPHP_CONFIG_DIR=/conf/
     links:
       - memcached
+
+  docs.tutorial.stack-dev.cirrusidentity.com:
+    build: build
+    volumes:
+      - ./phpdocs:/code/www
+    working_dir: /code
+    command: apache2 -D FOREGROUND
 
   memcached:
     image: memcached
@@ -69,9 +80,18 @@ services:
     command:
       - ./ca/generate.sh
 
+  gendocs:
+    image: phpdoc/phpdoc
+    volumes:
+      - .:/data
+    command:
+      - run -t ./phpdocs -d ./simplesamlphp
+    
+
   nginx:
     image: nginx:stable
     links:
+      - docs.tutorial.stack-dev.cirrusidentity.com
       - idp.tutorial.stack-dev.cirrusidentity.com
       - proxy.tutorial.stack-dev.cirrusidentity.com
       - sp1.tutorial.stack-dev.cirrusidentity.com
