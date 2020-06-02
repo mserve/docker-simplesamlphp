@@ -55,6 +55,13 @@ services:
     working_dir: /code
     command: apache2 -D FOREGROUND
 
+  api.tutorial.stack-dev.cirrusidentity.com:
+    image: node:alpine
+    volumes:
+      - ./totp2fa-api:/code
+    working_dir: /code 
+    command: node server.js  
+
   memcached:
     image: memcached
 
@@ -91,6 +98,7 @@ services:
   nginx:
     image: nginx:stable
     links:
+      - api.tutorial.stack-dev.cirrusidentity.com
       - docs.tutorial.stack-dev.cirrusidentity.com
       - idp.tutorial.stack-dev.cirrusidentity.com
       - proxy.tutorial.stack-dev.cirrusidentity.com

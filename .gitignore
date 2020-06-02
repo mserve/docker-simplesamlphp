@@ -7,3 +7,4 @@ nginx/*.csr
 .vscode
 phpdocs
 !phpdocs/.gitkeep
+*/node_modules/
