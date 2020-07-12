@@ -21,13 +21,22 @@ $config = array(
         //'remember.username.checked' => FALSE,
 
         'student:studentpass' => array(
-            'uid' => array('test'),
+            'uid' => array('s1234567'),
             'eduPersonAffiliation' => array('member', 'student'),
+            'memberOf' => array('student'),
             'hotpToken' => array('otpauth://totp/Example%20University,%20Faculty%20of%20Engineering:student@example.edu?secret=YPUF3ETVVROF3FCJ5OHROZA6BQWEVR35&issuer=Example%20University%2C%20Faculty%20of%20Engineering&algorithm=SHA1&digits=6&period=30')
         ),
         'employee:employeepass' => array(
-            'uid' => array('employee'),
+            'uid' => array('e234567'),
             'eduPersonAffiliation' => array('member', 'employee'),
+            'memberOf' => array('employee'),
+            'hotpToken' => array('otpauth://totp/Example%20University,%20Faculty%20of%20Engineering:student@example.edu?secret=YPUF3ETVVROF3FCJ5OHROZA6BQWEVR35&issuer=Example%20University%2C%20Faculty%20of%20Engineering&algorithm=SHA1&digits=6&period=30')
+        ),
+        'guest:guestpass' => array(
+            'uid' => array('g998877'),
+            'eduPersonAffiliation' => array('member', 'guest'),
+            'memberOf' => array('member', 'disableTotp'),
+            'isGuestAccount' => array('true'),
             'hotpToken' => array('otpauth://totp/Example%20University,%20Faculty%20of%20Engineering:student@example.edu?secret=YPUF3ETVVROF3FCJ5OHROZA6BQWEVR35&issuer=Example%20University%2C%20Faculty%20of%20Engineering&algorithm=SHA1&digits=6&period=30')
         ),
     ),

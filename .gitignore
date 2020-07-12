@@ -1,4 +1,4 @@
-simplesamlphp
+simplesamlphp*/
 ca/*.pem
 nginx/*.pem
 ca/*.csr
